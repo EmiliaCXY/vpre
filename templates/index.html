@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <title>VPRE</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+
+<style>
+    .visualization-area{
+    border:1px solid #000;
+    height:69vh;
+    x-overflow:scroll;
+    }
+
+    p#result-area span:hover
+    {
+      background-color: red;
+    }
+</style>
+
+<script>
+
+    function show(){
+    document.getElementById("result-area").innerHTML= "IAMTHEPREDICTION";
+
+    tx = "IAMTHEPREDICTION";
+    html = "";
+    for (i = 0; i < tx.length; i++)
+    {
+      html += "<span>" + tx.charAt(i) + "</span>";
+    }
+    document.getElementById("result-area").innerHTML = html;
+    }
+
+    function visualize(){
+    tx = document.getElementById("sequence").value;
+
+    html = "";
+    for (i = 0; i < tx.length; i++)
+    {
+      html += "<span>" + tx.charAt(i) + "</span>";
+    }
+    document.getElementById("result-area").innerHTML = html;
+    }
+
+
+
+</script>
+
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">UBC BioDesign</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+      </li>
+
+    </ul>
+  </div>
+</nav>
+
+<div class="container" style="display: flex">
+
+    <div class="form-group" style="width: 40%; height = 80vh; margin-top: 2%">
+        <label>Viral Spike Protein mRNA Sequence:</label>
+        <textarea class="form-control" rows="16" id="sequence" placeholder="AGC..."></textarea>
+        <button type="submit" class="btn btn-outline-primary" style="margin-top:2%" onclick="show()">Predict</button>
+        <button type="submit" class="btn btn-outline-success" style="margin-top:2%; margin-left: 2%" onclick="visualize()">Visualize</button>
+    </div>
+    <div class="form-group" style="width:70%; margin-left: 5%; margin-top: 2%">
+        <label>Prediction Visualization:</label>
+        <div class="visualization-area">
+            <p id="result-area"></p>
+
+        </div>
+    </div>
+</div>
+
+
+
+</body>
+</html>
