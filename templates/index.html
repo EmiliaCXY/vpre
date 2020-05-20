@@ -1,30 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1" name="viewport">
+    <link rel='icon' href="/static/transparent.png" type='image/x-icon'/>
     <title>VPRE</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Raleway:wght@500&display=swap" rel="stylesheet">
 </head>
 
-<style>
-    .visualization-area{
-    border:1px solid #000;
-    height:69vh;
-    x-overflow:scroll;
-    }
 
-    p#result-area span:hover
-    {
-      background-color: red;
-    }
-</style>
 
-<script>
 
+
+<script type="text/javascript">
     function show(){
-    tx = document.getElementById("result-area").innerHTML;
+    document.getElementById("result-area").innerHTML= "Predicted sequences for SARS-CoV-2 from file";
 
+    tx = "Predicted sequences for SARS-CoV-2 from file";
     html = "";
     for (i = 0; i < tx.length; i++)
     {
@@ -43,46 +38,74 @@
     }
     document.getElementById("result-area").innerHTML = html;
     }
-
-
-
 </script>
 
-<body onload="show()">
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#">UBC BioDesign</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
 
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-      </li>
+<body>
 
-    </ul>
-  </div>
-</nav>
-
-<div>
-    <form class="container" style="display: flex" action="/predict"method="post">
-
-        <div class="form-group" style="width: 40%; height = 80vh; margin-top: 2%">
-            <label>Viral Spike Protein mRNA Sequence:</label>
-            <textarea type="text" class="form-control" rows="16" id="sequence" name="sequence" placeholder="AGC..."></textarea>
-            <button type="submit" class="btn btn-outline-primary" style="margin-top:2%" >Predict</button>
-            <button type="submit" class="btn btn-outline-success" style="margin-top:2%; margin-left: 2%">Visualize</button>
-        </div>
-        <div class="form-group" style="width:70%; margin-left: 5%; margin-top: 2%">
-            <label>Prediction Visualization:</label>
-            <div class="visualization-area">
-                <p id="result-area">{{ prediction_text }}</p>
-
-            </div>
-        </div>
-    </form>
+<header>
+<div class="menu">
+        <nav>
+               <ul>
+                    <li><a href="#">Tool</a></li>
+                    <li><img src="/static/virosight-logo.png"></li>
+                    <li><a href="https://ubcvirosight.godaddysites.com/">Home</a></li>
+               </ul>
+        </nav>
 </div>
+    <br>
+    <h1><b>Viral Predictor for mRNA Evolution (VPRE)</b></h1>
+    <h2><b>A software tool brought to you by UBC Virosight</b></h2>
+    <br>
+</header>
 
+   <div class="content">
+   <div class="intro">
+   <p>VPRE uses a viral genome and species name inputted by the user to predict the  most probable mutated sequences based on the species' phylogeny. Our algorithm uses deep learning to produce this output, implementing both a neural network training set and Markov models.</p>
+   </div>
+
+
+<div class="container" style="display: flex">
+    <div class="form-group" style="width: 50%; margin-top: 2%">
+        <label><h3><b>Viral Genome inputs:</b></h3></label>
+        <p><img src="/static/1.png">Input the species name of your virus below:</p>
+        <textarea class="form-control" rows="16" id="sequence" placeholder="Species name..."></textarea>
+
+        <p><img src="/static/2.png">Input your viral genome below:</p>
+        <input type="file" id="real-file" hidden="hidden"/>
+    <button type="button" class="btn btn-outline-success" id="custom-button">Choose a file</button>
+    <span id="custom-text">No file chosen</span>
+
+       <script type="text/javascript">
+            const realFileBtn = document.getElementById("real-file");
+            const customBtn = document.getElementById("custom-button");
+            const customTxt = document.getElementById("custom-text");
+            customBtn.addEventListener("click", function() {
+                realFileBtn.click();
+
+            });
+
+           realFileBtn.addEventListener("change",function() {
+              if (realFileBtn.value) {
+                  customTxt.innerHTML = realFileBtn.value.match(/[\/\\]([\w\d\s\.\-\(\)]+)$/)[1];
+              } else {
+                  customTxt.innerHTML = "No file chosen"
+              }
+           });
+        </script>
+
+        <p><img src="static/3.png">Run your inputs through VPRE:</p>
+        <button type="submit" id="tool" class="btn btn-outline-success" style="margin-top:2%" onclick="show()">Predict</button>
+        <button type="submit" id="tool" class="btn btn-outline-success" style="margin-top:2%; margin-left: 2%" onclick="visualize()">Visualize</button>
+    </div>
+    <div class="form-group" style="width:50%; margin-left: 5%; margin-top: 2%;">
+        <label><h4><b>Predicted mRNA sequences:</b></h4></label>
+        <div class="visualization-area">
+            <p id="result-area"></p>
+        </div>
+        <a href="PredictedSequence.fasta" download><button type="submit" id="download" class="btn btn-outline-primary" style="margin-top:2%px; margin-left: 210px;" onclick="visualize()">Download</button></a>
+    </div>
+    </div>
+    </div>
 </body>
 </html>
