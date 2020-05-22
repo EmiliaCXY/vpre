@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1" name="viewport">
-    <link rel='icon' href="/static/transparent.png" type='image/x-icon'/>
+    <link rel='icon' href="static/transparent.png" type='image/x-icon'/>
     <title>VPRE</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" href="/static/main.css">
+    <link rel="stylesheet" href="static/main.css">
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Raleway:wght@500&display=swap" rel="stylesheet">
 </head>
@@ -48,7 +48,7 @@
         <nav>
                <ul>
                     <li><a href="#">Tool</a></li>
-                    <li><img src="/static/virosight-logo.png"></li>
+                    <li><img src="static/virosight-logo.png"></li>
                     <li><a href="https://ubcvirosight.godaddysites.com/">Home</a></li>
                </ul>
         </nav>
@@ -64,20 +64,20 @@
    <p>VPRE uses a viral genome and species name inputted by the user to predict the  most probable mutated sequences based on the species' phylogeny. Our algorithm uses deep learning to produce this output, implementing both a neural network training set and Markov models.</p>
    </div>
 
-
 <div class="container" style="display: flex">
-    <div class="form-group" style="width: 50%; margin-top: 2%">
+    <form class="form-group" action="upload.php" enctype="multipart/form-data" method="post" style="width: 50%; margin-top: 2%">
+      <div class="preview"></div>
         <label><h3><b>Viral Genome inputs:</b></h3></label>
-        <p><img src="/static/1.png">Input the species name of your virus below:</p>
+        <p><img src="static/1.png">Input the species name of your virus below:</p>
         <textarea class="form-control" rows="16" id="sequence" placeholder="Species name..."></textarea>
 
-        <p><img src="/static/2.png">Input your viral genome below:</p>
-        <input type="file" id="real-file" hidden="hidden"/>
+        <p><img src="static/2.png">Input your viral genome below:</p>
+        <input type="file" name="fileToUpload" id="fileToUpload" hidden="hidden"/>
     <button type="button" class="btn btn-outline-success" id="custom-button">Choose a file</button>
     <span id="custom-text">No file chosen</span>
 
        <script type="text/javascript">
-            const realFileBtn = document.getElementById("real-file");
+            const realFileBtn = document.getElementById("fileToUpload");
             const customBtn = document.getElementById("custom-button");
             const customTxt = document.getElementById("custom-text");
             customBtn.addEventListener("click", function() {
@@ -95,9 +95,9 @@
         </script>
 
         <p><img src="static/3.png">Run your inputs through VPRE:</p>
-        <button type="submit" id="tool" class="btn btn-outline-success" style="margin-top:2%" onclick="show()">Predict</button>
+        <input type="submit" id="tool" class="btn btn-outline-success" style="margin-top:2%" onclick="show()"></button>
         <button type="submit" id="tool" class="btn btn-outline-success" style="margin-top:2%; margin-left: 2%" onclick="visualize()">Visualize</button>
-    </div>
+    </form>
     <div class="form-group" style="width:50%; margin-left: 5%; margin-top: 2%;">
         <label><h4><b>Predicted mRNA sequences:</b></h4></label>
         <div class="visualization-area">
@@ -107,5 +107,13 @@
     </div>
     </div>
     </div>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $(".btn-outline-success").click(function(){
+                $(".form-group").ajaxForm({target: '.preview'}).submit();
+            });
+        });
+    </script>
 </body>
 </html>
