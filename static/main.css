@@ -131,7 +131,7 @@ h4 {
     margin-left: 180px;
     background-color: #295d53;
     color: #f0f0f0;
-    border-color: #295d53;    
+    border-color: #295d53;
     /*font-family: 'Lato', sans-serif;*/
 }
 
@@ -171,7 +171,7 @@ textarea {
 .form-group img {
     height: 30px;
     margin-left: 20px;
-    margin-right: 10px;   
+    margin-right: 10px;
 }
 
 .form-group p {
@@ -192,16 +192,15 @@ textarea {
 .intro {
     text-align: center;
     padding-top: 50px;
-    margin-left: 570px;
-    margin-right: 200px;
-    max-width: 40%;
+    max-width: 100%;
+    display:flex;
 }
 
 #download {
     background-color: #295d53;
     color: #f0f0f0;
     border-color: #295d53;
-    
+
     /*font-family: 'Lato', sans-serif;*/
 }
 
@@ -209,7 +208,7 @@ textarea {
     background-color: #2b2b2b;
     border:1px solid #d6cfcf;
     border-color: #878787;
-    
+
 }
 
 ::placeholder {
