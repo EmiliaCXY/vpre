@@ -192,9 +192,13 @@ textarea {
 .intro {
     text-align: center;
     padding-top: 50px;
-    max-width: 50%;
+    width: 100%;
     display:flex;
-    margin-left: 30%;
+    justify-content: center;
+}
+
+.description{
+  width: 50%;
 }
 
 #download {

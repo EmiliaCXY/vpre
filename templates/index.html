@@ -61,12 +61,14 @@
 
    <div class="content">
    <div class="intro">
-   <p>VPRE uses a viral genome and species name inputted by the user to predict the  most probable mutated sequences based on the species' phylogeny. Our algorithm uses deep learning to produce this output, implementing both a neural network training set and Markov models.</p>
+       <div class="description">
+           <p>VPRE uses a viral genome and species name inputted by the user to predict the  most probable mutated sequences based on the species' phylogeny. Our algorithm uses deep learning to produce this output, implementing both a neural network training set and Markov models.</p>
+     </div>
    </div>
 
 
 <div class="container" style="display: flex">
-    <form class="form-group" action="/upload" method="POST" enctype = "multipart/form-data" style="width: 50%; margin-top: 2%">
+    <form class="form-group" action="/predict" method="POST" enctype = "multipart/form-data" style="width: 50%; margin-top: 2%">
         <label><h3><b>Viral Genome inputs:</b></h3></label>
         <p><img src="/static/1.png">Input the species name of your virus below:</p>
         <textarea class="form-control" rows="16" id="sequence" placeholder="Species name..."></textarea>

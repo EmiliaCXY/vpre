@@ -20,7 +20,7 @@ def allowed_file(filename):
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
-@app.route('/upload', methods=['GET', 'POST'])
+@app.route('/predict', methods=['GET', 'POST'])
 def upload_file():
     UPLOAD_FOLDER = 'uploads'
     app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -105,7 +105,6 @@ def predict():
     new_model.build(tf.TensorShape([1, None]))
     output = generate_text(new_model, start_string=u"ATGTTTGTTTTTCTTGTTTTATTGCCACTAGTTTCTAGTCAGTGTGTT")
 
-    output = "A"
 
     return output
 
