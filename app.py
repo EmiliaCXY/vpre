@@ -2,16 +2,10 @@ from flask import Flask, request, jsonify, render_template, url_for
 import tensorflow as tf
 from tensorflow.keras.models import model_from_json
 import tensorflow.keras.backend
-import os
 import numpy as np
 
 
 app = Flask(__name__)
-json_file = open('model.json', 'r')
-loaded_model_json = json_file.read()
-json_file.close()
-loaded_model = model_from_json(loaded_model_json)
-loaded_model.load_weights('model-weights.h5')
 
 
 @app.route('/')
@@ -35,11 +29,6 @@ def build_model(vocab_size, embedding_dim, rnn_units, batch_size):
 vocab = ['A', 'T', 'G', 'C']
 char2idx = {u:i for i, u in enumerate(vocab)}
 idx2char = np.array(vocab)
-batch_size = 1
-new_model = build_model(vocab_size=len(vocab),embedding_dim=256,rnn_units=1024,batch_size=batch_size)
-weights = loaded_model.get_weights()
-new_model.load_weights(weights)
-new_model.build(tf.TensorShape([1, None]))
 
 
 def generate_text(model, start_string):
@@ -84,6 +73,16 @@ def generate_text(model, start_string):
 @app.route('/predict',methods=['POST'])
 def predict():
 
+    json_file = open('model.json', 'r')
+    loaded_model_json = json_file.read()
+    json_file.close()
+    loaded_model = model_from_json(loaded_model_json)
+    loaded_model.load_weights('model-weights.h5')
+    batch_size = 1
+    new_model = build_model(vocab_size=len(vocab), embedding_dim=256, rnn_units=1024, batch_size=batch_size)
+    weights = loaded_model.get_weights()
+    new_model.load_weights(weights)
+    new_model.build(tf.TensorShape([1, None]))
     output = generate_text(new_model, start_string=u"ATGTTTGTTTTTCTTGTTTTATTGCCACTAGTTTCTAGTCAGTGTGTT")
 
     return render_template('index.html', prediction_text=output)
