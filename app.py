@@ -101,7 +101,7 @@ def predict():
     batch_size = 1
     new_model = build_model(vocab_size=len(vocab), embedding_dim=256, rnn_units=1024, batch_size=batch_size)
     weights = loaded_model.get_weights()
-    new_model.load_weights(weights)
+    new_model.set_weights(weights)
     new_model.build(tf.TensorShape([1, None]))
     output = generate_text(new_model, start_string=u"ATGTTTGTTTTTCTTGTTTTATTGCCACTAGTTTCTAGTCAGTGTGTT")
 
