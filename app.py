@@ -1,8 +1,8 @@
 from flask import Flask, request, render_template
 from werkzeug.utils import secure_filename
-# import tensorflow as tf
-# from tensorflow.keras.models import model_from_json
-# import tensorflow.keras.backend
+import tensorflow as tf
+from tensorflow.keras.models import model_from_json
+import tensorflow.keras.backend
 import numpy as np
 import os
 
