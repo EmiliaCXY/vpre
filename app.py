@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify, render_template, url_for
-# import tensorflow as tf
-# from tensorflow.keras.models import model_from_json
-# import tensorflow.keras.backend
+import tensorflow as tf
+from tensorflow.keras.models import model_from_json
+import tensorflow.keras.backend
 import os
 import numpy as np
 
@@ -12,6 +12,11 @@ loaded_model_json = json_file.read()
 json_file.close()
 loaded_model = model_from_json(loaded_model_json)
 loaded_model.load_weights('model-weights.h5')
+
+
+@app.route('/')
+def home():
+    return render_template('index.html')
 
 
 def build_model(vocab_size, embedding_dim, rnn_units, batch_size):
@@ -35,6 +40,7 @@ new_model = build_model(vocab_size=len(vocab),embedding_dim=256,rnn_units=1024,b
 weights = loaded_model.get_weights()
 new_model.set_weights(weights)
 new_model.build(tf.TensorShape([1, None]))
+
 
 def generate_text(model, start_string):
   # Evaluation step (generating text using the learned model)
@@ -74,9 +80,6 @@ def generate_text(model, start_string):
   return (start_string + ''.join(text_generated))
 
 
-@app.route('/')
-def home():
-    return render_template('index.html')
 
 @app.route('/predict',methods=['POST'])
 def predict():
