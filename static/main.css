@@ -192,8 +192,9 @@ textarea {
 .intro {
     text-align: center;
     padding-top: 50px;
-    max-width: 100%;
+    max-width: 50%;
     display:flex;
+    margin-left: 30%;
 }
 
 #download {
