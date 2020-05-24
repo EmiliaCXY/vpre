@@ -101,14 +101,15 @@
         <p><img src="static/3.png">Run your inputs through VPRE:</p>
         <button type="submit" id="tool" class="btn btn-outline-success" style="margin-top:2%">Predict</button>
     </form>
-    <form class="form-group" style="width:50%; margin-left: 5%; margin-top: 2%;">
+    <div class="form-group" style="width:50%; margin-left: 5%; margin-top: 2%;">
         <label><h4><b>Predicted mRNA sequences:</b></h4></label>
         <div class="visualization-area">
             <p id="result-area">{{prediction_text}}</p>
             <img src="{{pic_url}}"/>
         </div>
-        <a href={{download_url}} download><button id="download" type="submit" class="btn btn-outline-primary" style="margin-top:2%; margin-left: 40%;">Download</button></a>
-    </form>
+        <a href="{{download_url}}" download><button type="submit" id="download" class="btn btn-outline-primary" style="margin-top:2%; margin-left: 7%;">Download sequence</button></a>
+        <a href="{{pic_url}}" download><button type="submit" id="download" class="btn btn-outline-primary" style="margin-top:2%; margin-left: 5%;">Download image</button></a>
+    </div>
     </div>
     </div>
 </body>
