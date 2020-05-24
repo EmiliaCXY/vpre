@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <link rel='icon' href="/static/transparent.png" type='image/x-icon'/>
+    <title>VPRE</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Raleway:wght@500&display=swap" rel="stylesheet">
+</head>
+
+
+
+
+
+<script type="text/javascript">
+    function show(){
+    document.getElementById("result-area").innerHTML= "Predicted sequences for SARS-CoV-2 from file";
+
+    tx = "Predicted sequences for SARS-CoV-2 from file";
+    html = "";
+    for (i = 0; i < tx.length; i++)
+    {
+      html += "<span>" + tx.charAt(i) + "</span>";
+    }
+    document.getElementById("result-area").innerHTML = html;
+    }
+
+    function visualize(){
+    tx = document.getElementById("sequence").value;
+
+    html = "";
+    for (i = 0; i < tx.length; i++)
+    {
+      html += "<span>" + tx.charAt(i) + "</span>";
+    }
+    document.getElementById("result-area").innerHTML = html;
+    }
+</script>
+
+
+<body>
+
+<header>
+<div class="menu">
+        <nav>
+               <ul>
+                    <li><a href="/">Tool</a></li>
+                    <li><img src="/static/virosight-logo.png"></li>
+                    <li><a href="https://ubcvirosight.godaddysites.com/">Home</a></li>
+               </ul>
+        </nav>
+</div>
+    <br>
+    <h1><b>Viral Predictor for mRNA Evolution (VPRE)</b></h1>
+    <h2><b>A software tool brought to you by UBC Virosight</b></h2>
+    <br>
+</header>
+
+   <div class="content">
+   <div class="intro">
+       <div class="description">
+           <p>VPRE uses a viral genome and species name inputted by the user to predict the  most probable mutated sequences based on the species' phylogeny. Our algorithm uses deep learning to produce this output, implementing both a neural network training set and Markov models.</p>
+     </div>
+   </div>
+
+
+    <div class="container" style="display: flex">
+        <form class="form-group" style="width:100%; height:100vh; margin-top: 2%; justify-content:centre;">
+            <label style="margin-left:0px"><h4><b>Predicted mRNA sequences:</b></h4></label>
+            <a href={{download_url}} download><button id="download" class="btn btn-outline-primary" style="margin-top:2%px; margin-left: 32%;">Download</button></a>
+            <div  style="width:100%; height:100vh; border-radius: 5px; border:1px solid #d6cfcf; border-color: #878787;">
+                <p id="result-area" style="width:100%; height:100vh;">{{prediction_text}}</p>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

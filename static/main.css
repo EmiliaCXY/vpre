@@ -127,6 +127,15 @@ h4 {
     border-color: #878787;
 }
 
+.visualization-page {
+    border-radius: 5px;
+    max-height: 288px;
+    border:1px solid #d6cfcf;
+    height:69vh;
+    x-overflow:scroll;
+    border-color: #878787;
+}
+
 #tool {
     margin-left: 180px;
     background-color: #295d53;

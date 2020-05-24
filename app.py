@@ -3,6 +3,7 @@ from werkzeug.utils import secure_filename
 import tensorflow as tf
 from tensorflow.keras.models import model_from_json
 import tensorflow.keras.backend
+from Bio import SeqIO
 import numpy as np
 import os
 
@@ -29,8 +30,14 @@ def upload_file():
         filename = secure_filename(f.filename)
         if f and allowed_file(filename):
             f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            output = predict()
+            fpath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            output = predict(fpath)
             os.remove(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            download = "/static/prediction/PredictedSequence.fasta"
+            pic = "/static/prediction/1.png"
+            return render_template('index.html', prediction_text=output, download_url=download, pic_url=pic)
+        if not allowed_file(filename):
+            output = "Sorry, the uploaded file is not in fasta"
             return render_template('index.html', prediction_text=output)
     return render_template("index.html")
 
@@ -91,7 +98,7 @@ def generate_text(model, start_string):
   return (start_string + ''.join(text_generated))
 
 
-def predict():
+def predict(fpath):
 
     json_file = open('model.json', 'r')
     loaded_model_json = json_file.read()
@@ -104,10 +111,11 @@ def predict():
     new_model.set_weights(weights)
     new_model.build(tf.TensorShape([1, None]))
     output = generate_text(new_model, start_string=u"ATGTTTGTTTTTCTTGTTTTATTGCCACTAGTTTCTAGTCAGTGTGTT")
+    input = SeqIO.read(fpath, "fasta")
+    input = "The seed sequence used in the prediction is " + input.seq[:10]
 
 
     return output
-
 
 
 if __name__ == "__main__":
