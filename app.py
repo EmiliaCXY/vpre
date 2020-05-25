@@ -4,6 +4,7 @@ import tensorflow as tf
 from tensorflow.keras.models import model_from_json
 import tensorflow.keras.backend
 from Bio import SeqIO
+from Bio.Seq import Seq
 import numpy as np
 import os
 
@@ -71,12 +72,12 @@ def generate_text(model, start_string):
   input_eval = tf.expand_dims(input_eval, 0)
 
   # Empty string to store our results
-  text_generated = []
-
   # Low temperatures results in more predictable text.
   # Higher temperatures results in more surprising text.
   # Experiment to find the best setting.
-  temperature = 1.0                                           #!!!
+  temperature = 1.0  # !!!
+  text_generated = []
+
 
   # Here batch size == 1
   model.reset_states()
@@ -102,21 +103,22 @@ def predict(fpath):
     json_file = open('model.json', 'r')
     loaded_model_json = json_file.read()
     json_file.close()
-    loaded_model = model_from_json(loaded_model_json)
-    loaded_model.load_weights('model-weights.h5')
-
     batch_size = 1
     new_model = build_model(vocab_size=len(vocab), embedding_dim=256, rnn_units=1024, batch_size=batch_size)
+    loaded_model = model_from_json(loaded_model_json)
+    loaded_model.load_weights('model-weights.h5')
     weights = loaded_model.get_weights()
     new_model.set_weights(weights)
+
     input_list = list(SeqIO.parse(fpath, "fasta"))
-    input = input_list[0]
-    input = input.seq[:48]
-    output = generate_text(new_model, start_string=input)
-    input.id = ">VPRE_prediction"
-    input.description = "VPRE_prediction"
-    input.seq = output
-    SeqIO.write(input, "/static/prediction/Predicted.fasta", "fasta")
+    input_obj = input_list[0]
+    input_seq = input_obj.seq[:48]
+    output = generate_text(new_model, start_string=input_seq)
+    input_obj.id = "VPRE_prediction"
+    input_obj.description = "VPRE_prediction"
+
+    input_obj.seq = Seq(str(output).upper())
+    SeqIO.write(input_obj, "./static/prediction/Predicted.fasta", "fasta")
 
     return output
 
