@@ -32,8 +32,10 @@ def upload_file():
             f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             fpath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             output = predict(fpath)
+            SeqIO.write(output, "/static/prediction/Predicted.fasta")
+
             os.remove(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            download = "/static/prediction/PredictedSequence.fasta"
+            download = "/static/prediction/Predicted.fasta"
             pic = "/static/prediction/1.png"
             return render_template('index.html', prediction_text=output, download_url=download, pic_url=pic)
         else:
@@ -108,11 +110,14 @@ def predict(fpath):
     new_model = build_model(vocab_size=len(vocab), embedding_dim=256, rnn_units=1024, batch_size=batch_size)
     weights = loaded_model.get_weights()
     new_model.set_weights(weights)
-    output = generate_text(new_model, start_string=u"ATGTTTGTTTTTCTTGTTTTATTGCCACTAGTTTCTAGTCAGTGTGTT")
-    input = SeqIO.read(fpath, "fasta")
+    input_list = list(SeqIO.parse(fpath, "fasta"))
+    input = input_list[0]
+    input = input.seq[:48]
+    output = generate_text(new_model, start_string=input)
+    input.id = "> VPRE prediction"
+    input.seq = output
 
-
-    return output
+    return input
 
 
 if __name__ == "__main__":
