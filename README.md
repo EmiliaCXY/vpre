@@ -1,3 +1,3 @@
 # VPRE
-An viral protein evolution prediction tool
+A viral protein evolution prediction tool
 https://vpppp.herokuapp.com/
