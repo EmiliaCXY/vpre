@@ -32,7 +32,6 @@ def upload_file():
             f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             fpath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             output = predict(fpath)
-            SeqIO.write(output, "/static/prediction/Predicted.fasta", "fasta")
 
             os.remove(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             download = "/static/prediction/Predicted.fasta"
@@ -114,10 +113,12 @@ def predict(fpath):
     input = input_list[0]
     input = input.seq[:48]
     output = generate_text(new_model, start_string=input)
-    input.id = "> VPRE prediction"
+    input.id = ">VPRE_prediction"
+    input.description = "VPRE_prediction"
     input.seq = output
+    SeqIO.write(input, "/static/prediction/Predicted.fasta", "fasta")
 
-    return input
+    return output
 
 
 if __name__ == "__main__":
