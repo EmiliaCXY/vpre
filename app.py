@@ -32,7 +32,7 @@ def upload_file():
             f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             fpath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             output = predict(fpath)
-            SeqIO.write(output, "/static/prediction/Predicted.fasta")
+            SeqIO.write(output, "/static/prediction/Predicted.fasta", "fasta")
 
             os.remove(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             download = "/static/prediction/Predicted.fasta"
