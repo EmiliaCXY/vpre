@@ -54,8 +54,7 @@ def build_model(vocab_size, embedding_dim, rnn_units, batch_size):
   ])
   return model
 
-
-vocab = ['A', 'T', 'G', 'C']
+vocab = ['A', 'C', 'G', 'T']
 char2idx = {u:i for i, u in enumerate(vocab)}
 idx2char = np.array(vocab)
 
@@ -99,17 +98,16 @@ def generate_text(model, start_string):
 
 
 def predict(fpath):
-
     json_file = open('model.json', 'r')
     loaded_model_json = json_file.read()
     json_file.close()
     loaded_model = model_from_json(loaded_model_json)
     loaded_model.load_weights('model-weights.h5')
+
     batch_size = 1
     new_model = build_model(vocab_size=len(vocab), embedding_dim=256, rnn_units=1024, batch_size=batch_size)
     weights = loaded_model.get_weights()
     new_model.set_weights(weights)
-    new_model.build(tf.TensorShape([1, None]))
     output = generate_text(new_model, start_string=u"ATGTTTGTTTTTCTTGTTTTATTGCCACTAGTTTCTAGTCAGTGTGTT")
     input = SeqIO.read(fpath, "fasta")
 
