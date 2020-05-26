@@ -33,9 +33,10 @@ def upload_file():
             f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             fpath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             output = predict(fpath)
+            output = "one prediction generated"
 
             os.remove(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            download = "/static/prediction/Predicted.fasta"
+            download = "/static/prediction/" + filename + ".fasta"
             pic = "/static/prediction/1.png"
             return render_template('index.html', prediction_text=output, download_url=download, pic_url=pic)
         else:
@@ -65,7 +66,7 @@ def generate_text(model, start_string):
   # Evaluation step (generating text using the learned model)
 
   # Number of characters to generate (not including seed sequence)
-  num_generate = 20                                       #!!!
+  num_generate = 3771                                       #!!!
 
   # Converting our start string to numbers (vectorizing)
   input_eval = [char2idx[s] for s in start_string]
@@ -114,11 +115,15 @@ def predict(fpath):
     input_obj = input_list[0]
     input_seq = input_obj.seq[:48]
     output = generate_text(new_model, start_string=input_seq)
+
     input_obj.id = "VPRE_prediction"
     input_obj.description = "VPRE_prediction"
 
+
     input_obj.seq = Seq(str(output).upper())
-    SeqIO.write(input_obj, "./static/prediction/Predicted.fasta", "fasta")
+    fname = fpath[8:]
+    fname = "VPRE_Prediction_" + fname
+    SeqIO.write(input_obj, "static/prediction/" + fname, "fasta")
 
     return output
 
