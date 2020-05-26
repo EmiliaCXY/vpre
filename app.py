@@ -36,7 +36,7 @@ def upload_file():
             output = "one prediction generated"
 
             os.remove(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            download = "/static/prediction/" + filename + ".fasta"
+            download = "/static/prediction/" + filename
             pic = "/static/prediction/1.png"
             return render_template('index.html', prediction_text=output, download_url=download, pic_url=pic)
         else:
