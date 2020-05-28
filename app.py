@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, send_file
 from werkzeug.utils import secure_filename
 import tensorflow as tf
 from tensorflow.keras.models import model_from_json
@@ -33,11 +33,10 @@ def upload_file():
             f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             fpath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             output = predict(fpath)
-            output = "one prediction generated"
 
             os.remove(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            download = "/static/prediction/" + filename
-            pic = "/static/prediction/1.png"
+            download = "static/prediction/" + filename
+            pic = "static/prediction/1.png"
             return render_template('index.html', prediction_text=output, download_url=download, pic_url=pic)
         else:
             output = "Sorry, the uploaded file is not in fasta"
@@ -66,7 +65,7 @@ def generate_text(model, start_string):
   # Evaluation step (generating text using the learned model)
 
   # Number of characters to generate (not including seed sequence)
-  num_generate = 1000                                       #!!!
+  num_generate = 1500                                       #!!!
 
   # Converting our start string to numbers (vectorizing)
   input_eval = [char2idx[s] for s in start_string]
@@ -113,19 +112,32 @@ def predict(fpath):
 
     input_list = list(SeqIO.parse(fpath, "fasta"))
     input_obj = input_list[0]
-    input_seq = input_obj.seq[:48]
-    output = generate_text(new_model, start_string=input_seq)
+    if len(input_obj.seq) > 500:
+        input_seq = input_obj.seq[:500]
+        output = generate_text(new_model, start_string=input_seq)
+        input_obj.id = "VPRE_prediction"
+        input_obj.description = "VPRE_prediction"
+        input_obj.seq = Seq(str(output).upper())
+        output = "Download the sequence and the tree view below"
+    else:
+        output = "Sorry, the uploaded file doesn't have enough information for prediction"
 
-    input_obj.id = "VPRE_prediction"
-    input_obj.description = "VPRE_prediction"
-
-
-    input_obj.seq = Seq(str(output).upper())
     fname = fpath[8:]
     fname = "VPRE_Prediction_" + fname
     SeqIO.write(input_obj, "static/prediction/" + fname, "fasta")
 
+
     return output
+
+@app.route('/download_seq', methods=['POST'])
+def download_seq():
+    params = request.form.get('seq_url')
+    return send_file(params, as_attachment=True)
+
+@app.route('/download_pic', methods=['POST'])
+def download_pic():
+    params = request.form.get('pic_url')
+    return send_file(params, as_attachment=True)
 
 
 if __name__ == "__main__":

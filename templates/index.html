@@ -14,7 +14,6 @@
 
 
 
-
 <script type="text/javascript">
     function show(){
     document.getElementById("result-area").innerHTML= "Predicted sequences for SARS-CoV-2 from file";
@@ -47,7 +46,7 @@
 <div class="menu">
         <nav>
                <ul>
-                    <li><a href="/">Tool</a></li>
+                    <li><a href="https://github.com/UBC-BioDesign/RNN-CoV">Tool</a></li>
                     <li><img src="/static/virosight-logo.png"></li>
                     <li><a href="https://virosight.ca/">Home</a></li>
                </ul>
@@ -105,12 +104,32 @@
         <label><h4><b>Predicted mRNA sequences:</b></h4></label>
         <div class="visualization-area">
             <p id="result-area">{{prediction_text}}</p>
-            <img src="{{pic_url}}"/>
+<!--            <img src="{{pic_url}}"/>-->
         </div>
-        <a href="{{download_url}}" download><button type="submit" id="download" class="btn btn-outline-primary" style="margin-top:2%; margin-left: 7%;">Download sequence</button></a>
-        <a href="{{pic_url}}" download><button type="submit" id="download" class="btn btn-outline-primary" style="margin-top:2%; margin-left: 5%;">Download image</button></a>
+        <div class="btns" style="display:flex; justify-content: space-around">
+            <form class="form-group" style="width: 50%" action="/download_seq" method="POST">
+            <input hidden type="text" id="seq_url" name="seq_url">
+            <p id ="s_download_link" hidden>{{download_url}}</p>
+            <button type="submit" id="download" class="btn btn-outline-primary" style="margin-top:2%; margin-left: 12%;">Download sequence</button>
+        </form>
+        <form class="form-group" style="width: 50%" action="/download_pic" method="POST">
+            <input hidden type="text" id="pic_url" name="pic_url">
+            <p id ="p_download_link" hidden>{{pic_url}}</p>
+            <button type="submit" id="download" class="btn btn-outline-primary" style="margin-top:2%; margin-left: 7%;">Download image</button>
+        </form>
+        </div>
+
     </div>
     </div>
+       <p style="text-align: right; font-size:11px; margin-right: 3%">* Note: The predicted sequence is shorter than the actual spike protein mRNA for demonstration purposes.</p>
     </div>
+
+    <script>
+        s_url = document.getElementById("s_download_link").innerHTML;
+        document.getElementById("seq_url").value = s_url;
+
+        p_url = document.getElementById("p_download_link").innerHTML;
+        document.getElementById("pic_url").value = p_url;
+    </script>
 </body>
 </html>
