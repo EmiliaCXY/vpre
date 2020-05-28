@@ -119,13 +119,11 @@ def predict(fpath):
         input_obj.description = "VPRE_prediction"
         input_obj.seq = Seq(str(output).upper())
         output = "Download the sequence and the tree view below"
+        fname = fpath[8:]
+        fname = "VPRE_Prediction_" + fname
+        SeqIO.write(input_obj, "static/prediction/" + fname, "fasta")
     else:
         output = "Sorry, the uploaded file doesn't have enough information for prediction"
-
-    fname = fpath[8:]
-    fname = "VPRE_Prediction_" + fname
-    SeqIO.write(input_obj, "static/prediction/" + fname, "fasta")
-
 
     return output
 
