@@ -61,7 +61,7 @@
    <div class="content">
    <div class="intro">
        <div class="description">
-           <p>VPRE uses a viral genome and species name provided by the user to predict the  most probable mutated sequences based on the strains' phylogeny. Our algorithm uses deep learning to predict this output, implementing both a neural network and Markov models.</p>
+           <p>VPRE uses a viral nucleotide sequence and species name provided by the user to predict the most probable mutated sequences based on the strains' phylogeny. Our algorithm uses deep learning to predict this output, implementing both a neural network and Markov models.</p>
      </div>
    </div>
 
@@ -74,7 +74,7 @@
         <option>SARS-CoV-2</option>
         </select>
 
-        <p><img src="/static/2.png">Input your viral spike protein nucleotide sequence below (in fasta format):</p>
+        <p><img src="/static/2.png">Input your viral spike protein nucleotide sequence (in fasta format):</p>
         <input type="file" id="real-file" name="real-file" hidden="hidden"/>
     <button type="button" class="btn btn-outline-success" id="custom-button">Choose a file</button>
     <span id="custom-text">No file chosen</span>
@@ -107,21 +107,21 @@
 <!--            <img src="{{pic_url}}"/>-->
         </div>
         <div class="btns">
-            <form class="form-group" style="width: 50%" action="/download_seq" method="POST">
+            <form class="form-group" style="width: 90%; text-align:center" action="/download_seq" method="POST">
             <input hidden type="text" id="seq_url" name="seq_url">
             <p id ="s_download_link" hidden>{{download_url}}</p>
             <button type="submit" id="download" class="btn btn-outline-primary" style="margin-top:2%; margin-left: 12%;">Download sequence</button>
-        </form>
+            </form>
 <!--        <form class="form-group" style="width: 50%" action="/download_pic" method="POST">-->
 <!--            <input hidden type="text" id="pic_url" name="pic_url">-->
 <!--            <p id ="p_download_link" hidden>{{pic_url}}</p>-->
 <!--            <button type="submit" id="download" class="btn btn-outline-primary" style="margin-top:2%; margin-left: 7%;">Download image</button>-->
 <!--        </form>-->
         </div>
-
-    </div>
     </div>
        <p style="text-align: right; font-size:11px; margin-right: 3%">* Note: The predicted sequence is shorter than the actual spike protein mRNA for demonstration purposes.</p>
+    </div>
+
     </div>
 
     <script>
