@@ -68,7 +68,7 @@
 
 <div class="container" style="display: flex">
     <form class="form-group" action="/predict" method="POST" enctype = "multipart/form-data" style="width: 50%; margin-top: 2%">
-        <label><h3><b>Viral mRNA inputs:</b></h3></label>
+        <label><h3><b>VIRAL mRNA INPUTS:</b></h3></label>
         <p><img src="/static/1.png">Input the species name of your virus below:</p>
         <select class="form-control" id="sel1" style="background:#2b2b2b; color:white">
         <option>SARS-CoV-2</option>
@@ -106,7 +106,7 @@
             <p id="result-area">{{prediction_text}}</p>
 <!--            <img src="{{pic_url}}"/>-->
         </div>
-        <div class="btns" style="display:flex; justify-content: space-around">
+        <div class="btns">
             <form class="form-group" style="width: 50%" action="/download_seq" method="POST">
             <input hidden type="text" id="seq_url" name="seq_url">
             <p id ="s_download_link" hidden>{{download_url}}</p>
