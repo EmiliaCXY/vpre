@@ -119,7 +119,7 @@ def predict(fpath):
         input_obj.id = "VPRE_prediction"
         input_obj.description = "VPRE_prediction"
         input_obj.seq = Seq(str(output).upper())
-        output = "Download the sequence and the tree view below"
+        output = "Download the predicted sequence below"
         fname = fpath[8:]
         fname = "VPRE_Prediction_" + fname
         SeqIO.write(input_obj, "static/prediction/" + fname, "fasta")
@@ -133,11 +133,6 @@ def predict(fpath):
 @app.route('/download_seq', methods=['POST'])
 def download_seq():
     params = request.form.get('seq_url')
-    return send_file(params, as_attachment=True)
-
-@app.route('/download_pic', methods=['POST'])
-def download_pic():
-    params = request.form.get('pic_url')
     return send_file(params, as_attachment=True)
 
 
