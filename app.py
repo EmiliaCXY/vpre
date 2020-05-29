@@ -33,11 +33,12 @@ def upload_file():
             f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             fpath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             output = predict(fpath)
-
             os.remove(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            if output == "Too long":
+                filename = "PredictedSequence.fasta"
+                output = "The uploaded sequence is too long, click download to see a default prediction"
             download = "static/prediction/" + filename
-            pic = "static/prediction/1.png"
-            return render_template('index.html', prediction_text=output, download_url=download, pic_url=pic)
+            return render_template('index.html', prediction_text=output, download_url=download)
         else:
             output = "Sorry, the uploaded file is not in fasta"
             return render_template('index.html', prediction_text=output)
@@ -112,7 +113,7 @@ def predict(fpath):
 
     input_list = list(SeqIO.parse(fpath, "fasta"))
     input_obj = input_list[0]
-    if len(input_obj.seq) > 500:
+    if len(input_obj.seq) > 500 and len(input_obj.seq) < 5000:
         input_seq = input_obj.seq[:500]
         output = generate_text(new_model, start_string=input_seq)
         input_obj.id = "VPRE_prediction"
@@ -122,6 +123,8 @@ def predict(fpath):
         fname = fpath[8:]
         fname = "VPRE_Prediction_" + fname
         SeqIO.write(input_obj, "static/prediction/" + fname, "fasta")
+    elif len(input_obj) > 5000:
+        output = "Too long"
     else:
         output = "Sorry, the uploaded file doesn't have enough information for prediction"
 

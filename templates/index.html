@@ -53,7 +53,7 @@
         </nav>
 </div>
     <br>
-    <h1><b>Viral Predictor for mRNA Evolution (VPRE)</b></h1>
+    <h1><b>VIRAL PREDICTOR FOR mRNA EVOLUTION (VPRE)</b></h1>
     <h2><b>A software tool brought to you by UBC Virosight</b></h2>
     <br>
 </header>
@@ -61,20 +61,20 @@
    <div class="content">
    <div class="intro">
        <div class="description">
-           <p>VPRE uses a viral genome and species name inputted by the user to predict the  most probable mutated sequences based on the species' phylogeny. Our algorithm uses deep learning to produce this output, implementing both a neural network training set and Markov models.</p>
+           <p>VPRE uses a viral genome and species name provided by the user to predict the  most probable mutated sequences based on the strains' phylogeny. Our algorithm uses deep learning to predict this output, implementing both a neural network and Markov models.</p>
      </div>
    </div>
 
 
 <div class="container" style="display: flex">
     <form class="form-group" action="/predict" method="POST" enctype = "multipart/form-data" style="width: 50%; margin-top: 2%">
-        <label><h3><b>Viral Genome inputs:</b></h3></label>
+        <label><h3><b>Viral mRNA inputs:</b></h3></label>
         <p><img src="/static/1.png">Input the species name of your virus below:</p>
         <select class="form-control" id="sel1" style="background:#2b2b2b; color:white">
         <option>SARS-CoV-2</option>
         </select>
 
-        <p><img src="/static/2.png">Input your viral genome below (in fasta format):</p>
+        <p><img src="/static/2.png">Input your viral spike protein nucleotide sequence below (in fasta format):</p>
         <input type="file" id="real-file" name="real-file" hidden="hidden"/>
     <button type="button" class="btn btn-outline-success" id="custom-button">Choose a file</button>
     <span id="custom-text">No file chosen</span>
@@ -101,7 +101,7 @@
         <button type="submit" id="tool" class="btn btn-outline-success" style="margin-top:2%">Predict</button>
     </form>
     <div class="form-group" style="width:50%; margin-left: 5%; margin-top: 2%;">
-        <label><h4><b>Predicted mRNA sequences:</b></h4></label>
+        <label><h4><b>PREDICTED mRNA SEQUENCES:</b></h4></label>
         <div class="visualization-area">
             <p id="result-area">{{prediction_text}}</p>
 <!--            <img src="{{pic_url}}"/>-->
@@ -112,11 +112,11 @@
             <p id ="s_download_link" hidden>{{download_url}}</p>
             <button type="submit" id="download" class="btn btn-outline-primary" style="margin-top:2%; margin-left: 12%;">Download sequence</button>
         </form>
-        <form class="form-group" style="width: 50%" action="/download_pic" method="POST">
-            <input hidden type="text" id="pic_url" name="pic_url">
-            <p id ="p_download_link" hidden>{{pic_url}}</p>
-            <button type="submit" id="download" class="btn btn-outline-primary" style="margin-top:2%; margin-left: 7%;">Download image</button>
-        </form>
+<!--        <form class="form-group" style="width: 50%" action="/download_pic" method="POST">-->
+<!--            <input hidden type="text" id="pic_url" name="pic_url">-->
+<!--            <p id ="p_download_link" hidden>{{pic_url}}</p>-->
+<!--            <button type="submit" id="download" class="btn btn-outline-primary" style="margin-top:2%; margin-left: 7%;">Download image</button>-->
+<!--        </form>-->
         </div>
 
     </div>
@@ -128,8 +128,6 @@
         s_url = document.getElementById("s_download_link").innerHTML;
         document.getElementById("seq_url").value = s_url;
 
-        p_url = document.getElementById("p_download_link").innerHTML;
-        document.getElementById("pic_url").value = p_url;
     </script>
 </body>
 </html>
