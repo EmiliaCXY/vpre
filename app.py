@@ -33,29 +33,31 @@ def upload_file():
             f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             fpath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             output = predict(fpath)
+            output = "Sequence upload is successful, click download to see the prediction"
             os.remove(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            if output == "Too long":
-                filename = "PredictedSequence.fasta"
-                output = "The uploaded sequence is too long, click download to see a default prediction"
+            filename = "PredictedSequence.fasta"
+            # if output == "Too long":
+            #     filename = "PredictedSequence.fasta"
+            #     output = "The uploaded sequence is too long, click download to see a default prediction"
             download = "static/prediction/" + filename
             return render_template('index.html', prediction_text=output, download_url=download)
-        else:
-            output = "Sorry, the uploaded file is not in fasta"
-            return render_template('index.html', prediction_text=output)
+        # else:
+        #     output = "Sorry, the uploaded file is not in fasta"
+        #     return render_template('index.html', prediction_text=output)
     return render_template("index.html")
 
 
-def build_model(vocab_size, embedding_dim, rnn_units, batch_size):
-  model = tf.keras.Sequential([
-    tf.keras.layers.Embedding(vocab_size, embedding_dim,
-                              batch_input_shape=[batch_size, None]),
-    tf.keras.layers.GRU(rnn_units,
-                        return_sequences=True,
-                        stateful=True,
-                        recurrent_initializer='glorot_uniform'),
-    tf.keras.layers.Dense(vocab_size)
-  ])
-  return model
+# def build_model(vocab_size, embedding_dim, rnn_units, batch_size):
+#   model = tf.keras.Sequential([
+#     tf.keras.layers.Embedding(vocab_size, embedding_dim,
+#                               batch_input_shape=[batch_size, None]),
+#     tf.keras.layers.GRU(rnn_units,
+#                         return_sequences=True,
+#                         stateful=True,
+#                         recurrent_initializer='glorot_uniform'),
+#     tf.keras.layers.Dense(vocab_size)
+#   ])
+#   return model
 
 vocab = ['A', 'C', 'G', 'T']
 char2idx = {u:i for i, u in enumerate(vocab)}
@@ -66,7 +68,7 @@ def generate_text(model, start_string):
   # Evaluation step (generating text using the learned model)
 
   # Number of characters to generate (not including seed sequence)
-  num_generate = 1500                                       #!!!
+  num_generate = 20                                       #!!!
 
   # Converting our start string to numbers (vectorizing)
   input_eval = [char2idx[s] for s in start_string]
@@ -127,7 +129,7 @@ def predict(fpath):
         output = "Too long"
     else:
         output = "Sorry, the uploaded file doesn't have enough information for prediction"
-
+    output = "l"
     return output
 
 @app.route('/download_seq', methods=['POST'])
