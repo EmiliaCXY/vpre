@@ -37,7 +37,7 @@ def upload_file():
             if output == "Too long":
                 filename = "PredictedSequence.fasta"
                 output = "The uploaded sequence is not a spike protein, click download to see a default prediction"
-            download = "static/prediction/" + filename
+            download = "static/prediction/VPRE_Prediction_" + filename
             return render_template('index.html', prediction_text=output, download_url=download)
         else:
             output = "Sorry, the uploaded file is not in fasta"
