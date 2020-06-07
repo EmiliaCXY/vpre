@@ -34,10 +34,9 @@ def upload_file():
             fpath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             output = predict(fpath)
             os.remove(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            filename = "PredictedSequence.fasta"
             if output == "Too long":
                 filename = "PredictedSequence.fasta"
-                output = "The uploaded sequence is too long, click download to see a default prediction"
+                output = "The uploaded sequence is not a spike protein, click download to see a default prediction"
             download = "static/prediction/" + filename
             return render_template('index.html', prediction_text=output, download_url=download)
         else:
@@ -67,7 +66,7 @@ def generate_text(model, start_string):
   # Evaluation step (generating text using the learned model)
 
   # Number of characters to generate (not including seed sequence)
-  num_generate = 20                                       #!!!
+  num_generate = 1500                                       #!!!
 
   # Converting our start string to numbers (vectorizing)
   input_eval = [char2idx[s] for s in start_string]
