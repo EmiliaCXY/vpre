@@ -66,7 +66,7 @@ def generate_text(model, start_string):
   # Evaluation step (generating text using the learned model)
 
   # Number of characters to generate (not including seed sequence)
-  num_generate = 1500                                       #!!!
+  num_generate = 800                                       #!!!
 
   # Converting our start string to numbers (vectorizing)
   input_eval = [char2idx[s] for s in start_string]
